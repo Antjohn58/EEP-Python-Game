@@ -3,7 +3,7 @@ from pytmx.util_pygame import load_pygame
 from os.path import join
 
 from sprites import Sprite, AnimatedSprite
-from entities import Player
+from entities import Player, Character
 from groups import AllSprites
 
 from support import *
@@ -29,7 +29,8 @@ class Game:
 
         self.overworld_frames = {
             'water': import_folder('graphics', 'tilesets', 'water'),
-            'coast': coast_importer(24, 12, 'graphics', 'tilesets', 'coast')
+            'coast': coast_importer(24, 12, 'graphics', 'tilesets', 'coast'),
+            'characters': all_character_import('graphics', 'characters')
         }
 
     def setup(self, tmx_map, player_start_pos):
@@ -45,8 +46,18 @@ class Game:
 
         #entities
         for obj in tmx_map.get_layer_by_name('Entities'):
-            if obj.name == 'Player' and obj.properties['pos'] == player_start_pos:
-                self.player = Player((obj.x, obj.y), self.all_sprites)
+            if obj.name == 'Player':
+                if obj.properties['pos'] == player_start_pos:
+                    self.player = Player(
+                        pos = (obj.x, obj.y),
+                        frames = self.overworld_frames['characters']['player'], 
+                        groups = self.all_sprites)
+            else:
+                Character(
+                        pos = (obj.x, obj.y),
+                        frames = self.overworld_frames['characters'][obj.properties['graphic']], 
+                        groups = self.all_sprites)
+
             
         #water
         for obj in tmx_map.get_layer_by_name('Water'):
@@ -78,3 +89,5 @@ class Game:
 if __name__ == '__main__':
     game = Game()
     game.run()
+
+
