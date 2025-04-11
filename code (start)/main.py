@@ -46,7 +46,7 @@ class Game:
 
         #grass patches
         for obj in tmx_map.get_layer_by_name('Monsters'):
-            Sprite((obj.x, obj.y), obj.image, self.all_sprites)
+            Sprite((obj.x, obj.y), obj.image, self.all_sprites, WORLD_LAYERS['bg'])
 
 
         #entities
@@ -70,13 +70,13 @@ class Game:
         for obj in tmx_map.get_layer_by_name('Water'):
             for x in range(int(obj.x), int(obj.x + obj.width), TILE_SIZE):
                 for y in range(int(obj.y), int(obj.y + obj.height), TILE_SIZE):
-                    AnimatedSprite((x, y), self.overworld_frames['water'], self.all_sprites)
+                    AnimatedSprite((x, y), self.overworld_frames['water'], self.all_sprites, WORLD_LAYERS['water'])
 
         #coast
         for obj in tmx_map.get_layer_by_name('Coast'):
             terrain = obj.properties['terrain']
             side = obj.properties['side']
-            AnimatedSprite((obj.x, obj.y), self.overworld_frames['coast'][terrain][side], self.all_sprites)
+            AnimatedSprite((obj.x, obj.y), self.overworld_frames['coast'][terrain][side], self.all_sprites, WORLD_LAYERS['bg'])
 
     def run(self):
         while True:
