@@ -6,6 +6,7 @@ class Sprite(pygame.sprite.Sprite):
         self.image = surf
         self.rect = self.image.get_frect(topleft = pos)#floating point rect
         self.z = z
+        self.y_sort =self.rect.centery
 
 class AnimatedSprite(Sprite):
     def __init__(self, pos, frames, groups, z = WORLD_LAYERS['main']):
