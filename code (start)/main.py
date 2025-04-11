@@ -44,6 +44,11 @@ class Game:
         for obj in tmx_map.get_layer_by_name('Objects'):
             Sprite((obj.x, obj.y), obj.image, self.all_sprites)
 
+        #grass patches
+        for obj in tmx_map.get_layer_by_name('Monsters'):
+            Sprite((obj.x, obj.y), obj.image, self.all_sprites)
+
+
         #entities
         for obj in tmx_map.get_layer_by_name('Entities'):
             if obj.name == 'Player':
@@ -51,12 +56,14 @@ class Game:
                     self.player = Player(
                         pos = (obj.x, obj.y),
                         frames = self.overworld_frames['characters']['player'], 
-                        groups = self.all_sprites)
+                        groups = self.all_sprites,
+                        facing_direction = obj.properties['direction'])
             else:
                 Character(
                         pos = (obj.x, obj.y),
                         frames = self.overworld_frames['characters'][obj.properties['graphic']], 
-                        groups = self.all_sprites)
+                        groups = self.all_sprites,
+                        facing_direction = obj.properties['direction'])
 
             
         #water
